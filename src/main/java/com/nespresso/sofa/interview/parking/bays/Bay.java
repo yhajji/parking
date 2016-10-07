@@ -22,7 +22,7 @@ public class Bay {
 	}
 
 	public void changeState() {
-		bayState = bayState.changeState();
+		bayState = bayState.change();
 	}
 	
 	public boolean check(BayState bayState) {
@@ -31,7 +31,7 @@ public class Bay {
 
 	@Override
 	public String toString() {
-		if (bayState == BayState.RESERVEDBAY)
+		if (bayState == BayState.RESERVED)
 			return carRepresentation;
 		return bayState.toString();
 	}

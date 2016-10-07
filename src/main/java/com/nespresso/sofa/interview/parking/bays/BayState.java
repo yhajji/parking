@@ -1,30 +1,30 @@
 package com.nespresso.sofa.interview.parking.bays;
 
 public enum BayState {
-	DISABLEDEMTYBAY("@") {
+	DISABLEDEMPTY("@") {
 		@Override
-		public BayState changeState() {
-			return DISABLEDRESERVEDBAY;
+		public BayState change() {
+			return DISABLEDRESERVED;
 		}
-	},DISABLEDRESERVEDBAY("D") {
+	},DISABLEDRESERVED("D") {
 		@Override
-		public BayState changeState() {
-			return DISABLEDEMTYBAY;
+		public BayState change() {
+			return DISABLEDEMPTY;
 		}
-	},EMPTYBAY("U") {
+	},EMPTY("U") {
 		@Override
-		public BayState changeState() {
-			return RESERVEDBAY;
+		public BayState change() {
+			return RESERVED;
 		}
-	},PEDESTRIANEXITBAY("=") {
+	},PEDESTRIANEXIT("=") {
 		@Override
-		public BayState changeState() {
+		public BayState change() {
 			return 	this;		
 		}
-	},RESERVEDBAY("") {
+	},RESERVED("") {
 		@Override
-		public BayState changeState() {
-			return EMPTYBAY;
+		public BayState change() {
+			return EMPTY;
 		}
 	};
 	private final String code;
@@ -33,7 +33,7 @@ public enum BayState {
 		this.code = code;
 	}
 	
-	public abstract BayState changeState();
+	public abstract BayState change();
 	
 	@Override
 	public String toString() {

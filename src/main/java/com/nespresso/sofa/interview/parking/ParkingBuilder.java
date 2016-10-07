@@ -52,9 +52,9 @@ public class ParkingBuilder {
 
 	private Bay createBay(Integer i) {
 		if (pedestrianExitIndexs.contains(i))
-			return new Bay(BayState.PEDESTRIANEXITBAY);
+			return new Bay(BayState.PEDESTRIANEXIT);
 		else if (disabledBayIndexs.contains(i))
-			return new Bay(BayState.DISABLEDEMTYBAY);
-		return new Bay(BayState.EMPTYBAY);
+			return new Bay(BayState.DISABLEDEMPTY);
+		return new Bay(BayState.EMPTY);
 	}
 }

@@ -23,7 +23,7 @@ public class Parking {
 	public int getAvailableBays() {
 		int available = 0;
 		for (Bay bay : bays) {
-			if (bay.check(BayState.EMPTYBAY) || bay.check(BayState.DISABLEDEMTYBAY) )
+			if (bay.check(BayState.EMPTY) || bay.check(BayState.DISABLEDEMPTY) )
 				available++;
 		}
 		return available;
@@ -50,7 +50,7 @@ public class Parking {
 	private int parkNormal(final char carType) {
 		for (Integer position : positioner.normalPossitions()) {
 			Bay bay = bays[position.intValue()];
-			if (bay.check(BayState.EMPTYBAY)) {
+			if (bay.check(BayState.EMPTY)) {
 				bay.setCarRepresentation(String.valueOf(carType));
 				bay.changeState();
 				return position.intValue();
@@ -61,7 +61,7 @@ public class Parking {
 
 	private int parkFirstAvailble() {
 		for (int i = 0; i < bays.length; i++) {
-			if (bays[i].check(BayState.EMPTYBAY)) {
+			if (bays[i].check(BayState.EMPTY)) {
 				bays[i].changeState();
 				return i;
 			}
@@ -72,7 +72,7 @@ public class Parking {
 	private int parkDisabled(final char carType) {
 		for (Integer position : positioner.disabledPossitions()) {
 			Bay bay = bays[position.intValue()];
-			if (bay.check(BayState.DISABLEDEMTYBAY)) {
+			if (bay.check(BayState.DISABLEDEMPTY)) {
 				bay.setCarRepresentation(String.valueOf(carType));
 				bay.changeState();
 				return position.intValue();
@@ -88,8 +88,8 @@ public class Parking {
 	 * @return true if a car was parked in the bay, false otherwise
 	 */
 	public boolean unparkCar(final int index) {
-		if (bays[index].check(BayState.EMPTYBAY) || bays[index].check(BayState.DISABLEDEMTYBAY)
-				|| bays[index].check(BayState.PEDESTRIANEXITBAY)) {
+		if (bays[index].check(BayState.EMPTY) || bays[index].check(BayState.DISABLEDEMPTY)
+				|| bays[index].check(BayState.PEDESTRIANEXIT)) {
 			return false;
 		}
 		bays[index].changeState();
