@@ -22,12 +22,16 @@ public class Bay {
 	}
 
 	public void changeState() {
-		bayState.changeState(this);
+		bayState = bayState.changeState();
+	}
+	
+	public boolean check(BayState bayState) {
+		return this.bayState == bayState;
 	}
 
 	@Override
 	public String toString() {
-		if (bayState instanceof ReservedBay)
+		if (bayState == BayState.RESERVEDBAY)
 			return carRepresentation;
 		return bayState.toString();
 	}
