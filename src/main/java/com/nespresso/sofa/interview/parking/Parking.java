@@ -1,9 +1,7 @@
 package com.nespresso.sofa.interview.parking;
 
 import com.nespresso.sofa.interview.parking.bays.Bay;
-import com.nespresso.sofa.interview.parking.bays.DisabledEmtyBay;
-import com.nespresso.sofa.interview.parking.bays.EmptyBay;
-import com.nespresso.sofa.interview.parking.bays.PedestrianExitBay;
+import com.nespresso.sofa.interview.parking.bays.BayState;
 
 /**
  * Handles the parking mechanisms: park/unpark a car (also for disabled-only
@@ -25,7 +23,7 @@ public class Parking {
 	public int getAvailableBays() {
 		int available = 0;
 		for (Bay bay : bays) {
-			if (bay.getBayState() instanceof EmptyBay || bay.getBayState() instanceof DisabledEmtyBay)
+			if (bay.check(BayState.EMPTYBAY) || bay.check(BayState.DISABLEDEMTYBAY) )
 				available++;
 		}
 		return available;
@@ -52,7 +50,7 @@ public class Parking {
 	private int parkNormal(final char carType) {
 		for (Integer position : positioner.normalPossitions()) {
 			Bay bay = bays[position.intValue()];
-			if (bay.getBayState() instanceof EmptyBay) {
+			if (bay.check(BayState.EMPTYBAY)) {
 				bay.setCarRepresentation(String.valueOf(carType));
 				bay.changeState();
 				return position.intValue();
@@ -63,7 +61,7 @@ public class Parking {
 
 	private int parkFirstAvailble() {
 		for (int i = 0; i < bays.length; i++) {
-			if (bays[i].getBayState() instanceof EmptyBay) {
+			if (bays[i].check(BayState.EMPTYBAY)) {
 				bays[i].changeState();
 				return i;
 			}
@@ -74,7 +72,7 @@ public class Parking {
 	private int parkDisabled(final char carType) {
 		for (Integer position : positioner.disabledPossitions()) {
 			Bay bay = bays[position.intValue()];
-			if (bay.getBayState() instanceof DisabledEmtyBay) {
+			if (bay.check(BayState.DISABLEDEMTYBAY)) {
 				bay.setCarRepresentation(String.valueOf(carType));
 				bay.changeState();
 				return position.intValue();
@@ -90,8 +88,8 @@ public class Parking {
 	 * @return true if a car was parked in the bay, false otherwise
 	 */
 	public boolean unparkCar(final int index) {
-		if (bays[index].getBayState() instanceof EmptyBay || bays[index].getBayState() instanceof DisabledEmtyBay
-				|| bays[index].getBayState() instanceof PedestrianExitBay) {
+		if (bays[index].check(BayState.EMPTYBAY) || bays[index].check(BayState.DISABLEDEMTYBAY)
+				|| bays[index].check(BayState.PEDESTRIANEXITBAY)) {
 			return false;
 		}
 		bays[index].changeState();
